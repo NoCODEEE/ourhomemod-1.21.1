@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "our-home-mod",
+	"version": "${version}",
+	"name": "OurHomeMod",
+	"description": "This mod is for us gangkapok. Adding new feature or altering existing vanilla mechanics",
+	"authors": [
+		"Byebye007x"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/our-home-mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.byebye007x.ourhomemod.OurHomeMod"
+		],
+		"fabric-datagen": [
+			"net.byebye007x.ourhomemod.OurHomeModDataGenerator"
+		],
+		"client": [
+			"net.byebye007x.ourhomemod.Client"
+		]
+	},
+	"mixins": [
+		"our-home-mod.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
