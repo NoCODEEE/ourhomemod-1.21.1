@@ -16,41 +16,42 @@ import java.util.Objects;
 
 public class ModConfig {
     public static Identifier flightIngredient = Identifier.of("minecraft", "shulker_shell");
-    public static int potionStackSize = 16;
+    public static int potionStackSize = 32;
 
     public static void load() {
         Path configPath = FabricLoader.getInstance()
                 .getConfigDir()
                 .resolve("ourhomemod.json");
 
-        // Write default if missing
-        if (!Files.exists(configPath)) {
-            JsonObject def = new JsonObject();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonObject json = new JsonObject();
 
-            //Add new Field Here
-            def.addProperty("flightIngredient", flightIngredient.toString());
-            def.addProperty("potionStackSize", potionStackSize);
-
-            try (Writer w = Files.newBufferedWriter(configPath)) {
-                new GsonBuilder().setPrettyPrinting().create().toJson(def, w);
-            } catch (IOException e) { e.printStackTrace(); }
+        if (Files.exists(configPath)) {
+            try (Reader r = Files.newBufferedReader(configPath)) {
+                json = JsonParser.parseReader(r).getAsJsonObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        // Read it back
-        try (Reader r = Files.newBufferedReader(configPath)) {
-            JsonObject json = JsonParser.parseReader(r).getAsJsonObject();
+        // Add new Field here
+        if (json.has("flightIngredient")) {
+            String raw = json.get("flightIngredient").getAsString();
+            Identifier parsed = Identifier.tryParse(raw);
+            flightIngredient = Objects.requireNonNullElseGet(parsed, () -> Identifier.of("minecraft", "shulker_shell"));
+        } else {
+            json.addProperty("flightIngredient", flightIngredient.toString());
+        }
 
-            // Add New Field Here
-            if (json.has("flightIngredient")) {
-                String raw = json.get("flightIngredient").getAsString();
-                Identifier parsed = Identifier.tryParse(raw);
-                // fallback
-                flightIngredient = Objects.requireNonNullElseGet(parsed, () -> Identifier.of("minecraft", "shulker_shell"));
-            }
-            if (json.has("potionStackSize")) {
-                potionStackSize = json.get("potionStackSize").getAsInt();
-            }
+        if (json.has("potionStackSize")) {
+            potionStackSize = json.get("potionStackSize").getAsInt();
+        } else {
+            json.addProperty("potionStackSize", potionStackSize);
+        }
 
+
+        try (Writer w = Files.newBufferedWriter(configPath)) {
+            gson.toJson(json, w);
         } catch (IOException e) {
             e.printStackTrace();
         }
