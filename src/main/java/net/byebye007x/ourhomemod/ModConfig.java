@@ -16,7 +16,7 @@ import java.util.Objects;
 
 public class ModConfig {
     public static Identifier flightIngredient = Identifier.of("minecraft", "shulker_shell");
-    public static int potionStackSize = 32;
+    public static int potionStackSize = 16;
 
     public static void load() {
         Path configPath = FabricLoader.getInstance()
