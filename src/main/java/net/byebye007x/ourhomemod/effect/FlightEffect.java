@@ -1,15 +1,9 @@
 package net.byebye007x.ourhomemod.effect;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class FlightEffect extends StatusEffect {
@@ -35,19 +29,6 @@ public class FlightEffect extends StatusEffect {
         }
         return super.applyUpdateEffect(entity, amplifier);
     }
-
-//    @Override
-//    public void onRemoved(AttributeContainer attributeContainer) {
-//        ClientPlayerEntity player = MinecraftClient.getInstance().player;
-//        assert player != null;
-//        if (!player.isCreative() && !player.isSpectator()) {
-//            player.getAbilities().flying = false;
-//            player.getAbilities().allowFlying = false;
-//            player.sendAbilitiesUpdate();
-//        }
-//
-//        super.onRemoved(attributeContainer);
-//    }
 
     @Override
     public void onEntityRemoval(LivingEntity entity, int amplifier, Entity.RemovalReason reason) {

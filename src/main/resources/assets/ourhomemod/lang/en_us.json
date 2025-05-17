@@ -1,8 +1,9 @@
 {
   "effect.ourhomemod.flight": "Flight",
 
-  "item.minecraft.potion.effect.flight_potion": "Flight Potion",
-  "item.minecraft.splash_potion.effect.flight_potion": "Flight Splash Potion",
-  "item.minecraft.lingering_potion.effect.flight_potion": "Flight Lingering Potion"
+  "item.minecraft.potion.effect.flight_potion": "Potion of Flight",
+  "item.minecraft.splash_potion.effect.flight_potion": "Splash Potion of Flight",
+  "item.minecraft.lingering_potion.effect.flight_potion": "Lingering Potion of Flight",
+  "item.minecraft.tipped_arrow.effect.flight_potion": "Arrow of Flight"
 
 }

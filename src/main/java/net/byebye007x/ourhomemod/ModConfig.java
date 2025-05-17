@@ -16,6 +16,7 @@ import java.util.Objects;
 
 public class ModConfig {
     public static Identifier flightIngredient = Identifier.of("minecraft", "shulker_shell");
+    public static int potionStackSize = 16;
 
     public static void load() {
         Path configPath = FabricLoader.getInstance()
@@ -25,7 +26,11 @@ public class ModConfig {
         // Write default if missing
         if (!Files.exists(configPath)) {
             JsonObject def = new JsonObject();
-            def.addProperty("flight_ingredient", flightIngredient.toString());
+
+            //Add new Field Here
+            def.addProperty("flightIngredient", flightIngredient.toString());
+            def.addProperty("potionStackSize", potionStackSize);
+
             try (Writer w = Files.newBufferedWriter(configPath)) {
                 new GsonBuilder().setPrettyPrinting().create().toJson(def, w);
             } catch (IOException e) { e.printStackTrace(); }
@@ -34,12 +39,18 @@ public class ModConfig {
         // Read it back
         try (Reader r = Files.newBufferedReader(configPath)) {
             JsonObject json = JsonParser.parseReader(r).getAsJsonObject();
-            if (json.has("flight_ingredient")) {
-                String raw = json.get("flight_ingredient").getAsString();
+
+            // Add New Field Here
+            if (json.has("flightIngredient")) {
+                String raw = json.get("flightIngredient").getAsString();
                 Identifier parsed = Identifier.tryParse(raw);
                 // fallback
                 flightIngredient = Objects.requireNonNullElseGet(parsed, () -> Identifier.of("minecraft", "shulker_shell"));
             }
+            if (json.has("potionStackSize")) {
+                potionStackSize = json.get("potionStackSize").getAsInt();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
